@@ -11,6 +11,6 @@ describe('RecipeCard', () => {
     render(<MemoryRouter><RecipeCard recipe={r} categoryLabel="PASTA" /></MemoryRouter>)
     expect(screen.getByText('Sunday Gravy')).toBeInTheDocument()
     expect(screen.getByText('Better than yours.')).toBeInTheDocument()
-    expect(screen.getByRole('link')).toHaveAttribute('href', '#/recipe/sunday-gravy')
+    expect(screen.getByRole('link')).toHaveAttribute('href', '/recipe/sunday-gravy')
   })
 })

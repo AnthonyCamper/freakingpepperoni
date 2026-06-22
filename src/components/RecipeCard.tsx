@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import type { Recipe } from '../lib/types'
 
 const FALLBACK = 'data:image/svg+xml;utf8,' + encodeURIComponent(
@@ -6,7 +7,7 @@ const FALLBACK = 'data:image/svg+xml;utf8,' + encodeURIComponent(
 
 export default function RecipeCard({ recipe, categoryLabel }: { recipe: Recipe; categoryLabel?: string }) {
   return (
-    <a href={`#/recipe/${recipe.slug}`} className="bg-surface brutal-border flex flex-col relative group hover:-translate-y-1 transition-transform brutal-shadow block">
+    <Link to={`/recipe/${recipe.slug}`} className="bg-surface brutal-border flex flex-col relative group hover:-translate-y-1 transition-transform brutal-shadow block">
       {categoryLabel && (
         <div className="absolute top-0 right-4 bg-primary text-on-primary font-label-caps text-[10px] px-2 py-1 brutal-border border-t-0 z-10 uppercase">
           {categoryLabel}
@@ -28,6 +29,6 @@ export default function RecipeCard({ recipe, categoryLabel }: { recipe: Recipe; 
           READ MORE <span className="material-symbols-outlined text-[16px]">arrow_right_alt</span>
         </span>
       </div>
-    </a>
+    </Link>
   )
 }
