@@ -22,6 +22,7 @@ export default {
         'primary': '#8f000d', 'surface-container-low': '#f4f4f0',
       },
       borderRadius: { DEFAULT: '0.25rem', lg: '0.5rem', xl: '0.75rem', full: '9999px' },
+      zIndex: { dropdown: '10', sticky: '50', 'modal-backdrop': '90', modal: '100', toast: '110', tooltip: '120' },
       spacing: {
         'margin-mobile': '16px', 'unit': '4px', 'stack-md': '16px', 'margin-desktop': '64px',
         'gutter': '24px', 'stack-sm': '8px', 'stack-lg': '32px',

@@ -23,7 +23,7 @@ export default function Login() {
   return (
     <div className="max-w-md mx-auto">
       <header className="border-l-4 border-primary pl-4 py-1 mb-stack-lg">
-        <h1 className="font-display-lg text-display-lg uppercase">Family Only</h1>
+        <h1 className="font-display-lg text-display-lg-mobile md:text-display-lg uppercase break-words">Family Only</h1>
         <p className="font-label-mono text-label-mono text-on-surface-variant mt-2">If you have to ask, you're not on the list.</p>
       </header>
       <form onSubmit={submit} className="index-card p-6 flex flex-col gap-stack-md">

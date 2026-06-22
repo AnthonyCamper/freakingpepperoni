@@ -23,7 +23,7 @@ export default function Browse() {
   return (
     <div className="flex flex-col gap-stack-lg">
       <header className="border-l-4 border-primary pl-4 py-1">
-        <h1 className="font-display-lg text-display-lg uppercase">THE ARCHIVE</h1>
+        <h1 className="font-display-lg text-display-lg-mobile md:text-display-lg uppercase break-words">THE ARCHIVE</h1>
         <p className="font-label-mono text-label-mono text-on-surface-variant mt-2">Everything the family will admit to cooking.</p>
       </header>
 
@@ -35,10 +35,10 @@ export default function Browse() {
       </div>
 
       <div className="flex flex-wrap gap-2">
-        <Link to="/browse" className={`font-label-mono text-label-mono brutal-border px-3 py-1 ${!c ? 'bg-primary-container text-on-primary-container' : 'bg-surface'}`}>ALL</Link>
+        <Link to="/browse" className={`tap inline-flex items-center font-label-mono text-label-mono brutal-border px-3 py-2 ${!c ? 'bg-primary-container text-on-primary-container' : 'bg-surface'}`}>ALL</Link>
         {categories.map((cat) => (
           <Link key={cat.id} to={`/browse?c=${cat.slug}`}
-            className={`font-label-mono text-label-mono brutal-border px-3 py-1 ${c === cat.slug ? 'bg-primary-container text-on-primary-container' : 'bg-surface hover:bg-primary-container hover:text-on-primary-container'} transition-colors`}>
+            className={`tap inline-flex items-center font-label-mono text-label-mono brutal-border px-3 py-2 ${c === cat.slug ? 'bg-primary-container text-on-primary-container' : 'bg-surface hover:bg-primary-container hover:text-on-primary-container'} transition-colors`}>
             {cat.name}
           </Link>
         ))}

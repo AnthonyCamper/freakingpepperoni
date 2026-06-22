@@ -66,7 +66,7 @@ export default function Home() {
         <div className="flex flex-wrap gap-2 mt-4 md:mt-0">
           <span className="font-label-caps text-label-caps self-center mr-2 text-on-surface-variant hidden md:inline">FILTER:</span>
           {categories.slice(0, 4).map((c) => (
-            <Link key={c.id} to={`/browse?c=${c.slug}`} className="bg-surface font-label-mono text-label-mono brutal-border px-3 py-1 hover:bg-primary-container hover:text-on-primary-container transition-colors">
+            <Link key={c.id} to={`/browse?c=${c.slug}`} className="tap inline-flex items-center bg-surface font-label-mono text-label-mono brutal-border px-3 py-2 hover:bg-primary-container hover:text-on-primary-container transition-colors">
               {c.name}
             </Link>
           ))}

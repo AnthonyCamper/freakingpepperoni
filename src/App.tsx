@@ -8,7 +8,7 @@ import EditRecipe from './pages/EditRecipe'
 import ProtectedRoute from './components/ProtectedRoute'
 
 function Stub({ title }: { title: string }) {
-  return <h1 className="font-display-lg text-display-lg uppercase">{title}</h1>
+  return <h1 className="font-display-lg text-display-lg-mobile md:text-display-lg uppercase break-words">{title}</h1>
 }
 
 export default function App() {

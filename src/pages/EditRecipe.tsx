@@ -62,7 +62,7 @@ export default function EditRecipe() {
   return (
     <>
       <header className="mb-stack-lg border-l-4 border-primary pl-4 py-1">
-        <h1 className="font-display-lg text-display-lg text-on-background uppercase">{id ? 'Fix the Archive' : 'Add to the Archive'}</h1>
+        <h1 className="font-display-lg text-display-lg-mobile md:text-display-lg text-on-background uppercase break-words">{id ? 'Fix the Archive' : 'Add to the Archive'}</h1>
         <p className="font-label-mono text-label-mono text-on-surface-variant mt-2 max-w-2xl">Don't mess this up. Make sure the steps actually make sense.</p>
       </header>
 
@@ -100,7 +100,7 @@ export default function EditRecipe() {
                 <div key={i} className="flex items-center gap-2">
                   <input value={ing} onChange={(e) => setIngredients(setAt(ingredients, i, e.target.value))}
                     className="brutal-input flex-grow bg-transparent border-0 brutal-border-bottom py-1 px-0 outline-none" placeholder={i === 0 ? '2 cups flour' : '1 tsp salt'} />
-                  <button type="button" onClick={() => setIngredients(ingredients.filter((_, j) => j !== i))} className="text-on-background hover:text-error"><span className="material-symbols-outlined">close</span></button>
+                  <button type="button" onClick={() => setIngredients(ingredients.filter((_, j) => j !== i))} className="tap shrink-0 flex items-center justify-center text-on-background hover:text-error"><span className="material-symbols-outlined">close</span></button>
                 </div>
               ))}
             </div>
@@ -120,7 +120,7 @@ export default function EditRecipe() {
                   <div className="font-headline-md text-headline-md text-surface-dim mt-[-4px]">{i + 1}</div>
                   <textarea value={st} onChange={(e) => setSteps(setAt(steps, i, e.target.value))} rows={2}
                     className="brutal-input flex-grow bg-transparent border-0 brutal-border-bottom py-1 px-0 outline-none resize-none font-body-md text-body-md" placeholder={i === 0 ? 'Describe the first step clearly.' : 'Then what?'} />
-                  <button type="button" onClick={() => setSteps(steps.filter((_, j) => j !== i))} className="text-on-background hover:text-error"><span className="material-symbols-outlined">close</span></button>
+                  <button type="button" onClick={() => setSteps(steps.filter((_, j) => j !== i))} className="tap shrink-0 flex items-center justify-center text-on-background hover:text-error"><span className="material-symbols-outlined">close</span></button>
                 </div>
               ))}
             </div>
@@ -138,7 +138,7 @@ export default function EditRecipe() {
                 <div key={i} className="flex flex-col gap-2 border-b border-on-background pb-3">
                   <div className="flex gap-2">
                     <input value={g.label} onChange={(e) => setGear(setAt(gear, i, { ...g, label: e.target.value }))} className="brutal-input flex-1 bg-transparent border-0 brutal-border-bottom py-1 px-0 outline-none font-label-mono text-label-mono" placeholder="Cast-iron pot" />
-                    <button type="button" onClick={() => setGear(gear.filter((_, j) => j !== i))} className="text-on-background hover:text-error"><span className="material-symbols-outlined">close</span></button>
+                    <button type="button" onClick={() => setGear(gear.filter((_, j) => j !== i))} className="tap shrink-0 flex items-center justify-center text-on-background hover:text-error"><span className="material-symbols-outlined">close</span></button>
                   </div>
                   <input value={g.url} onChange={(e) => setGear(setAt(gear, i, { ...g, url: e.target.value }))} className="brutal-input bg-transparent border-0 brutal-border-bottom py-1 px-0 outline-none font-label-mono text-label-mono" placeholder="https://affiliate-link..." />
                   <input value={g.blurb} onChange={(e) => setGear(setAt(gear, i, { ...g, blurb: e.target.value }))} className="brutal-input bg-transparent border-0 brutal-border-bottom py-1 px-0 outline-none font-label-mono text-label-mono" placeholder="The one Grandpa swore by." />

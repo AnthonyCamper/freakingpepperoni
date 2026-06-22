@@ -29,7 +29,7 @@ export default function RecipePage() {
         <div className="md:col-span-5 flex flex-col gap-stack-md">
           <div className="bg-surface border-2 border-on-background p-4 brutalist-offset">
             {recipe.category && <div className="bg-primary-container text-on-primary-container font-label-caps text-label-caps inline-block px-2 py-1 mb-2 border border-on-background uppercase">{recipe.category.name}</div>}
-            <h1 className="font-display-lg text-display-lg mb-2 uppercase leading-none">{recipe.name}</h1>
+            <h1 className="font-display-lg text-display-lg-mobile md:text-display-lg mb-2 uppercase leading-none break-words">{recipe.name}</h1>
             {recipe.tagline && <p className="font-body-md text-body-md italic text-on-surface-variant">"{recipe.tagline}"</p>}
           </div>
           {recipe.photo_url && (
@@ -63,7 +63,7 @@ export default function RecipePage() {
                 <div key={g.id} className="flex justify-between items-center bg-surface-container p-4 gap-4">
                   <span className="font-label-mono text-label-mono text-on-surface-variant flex-1">{g.blurb || g.label}</span>
                   <a href={g.url} target="_blank" rel="noopener noreferrer nofollow sponsored"
-                    className="bg-primary-container text-on-primary border-2 border-on-background px-4 py-2 font-label-caps text-label-caps uppercase brutalist-btn-offset whitespace-nowrap">
+                    className="tap inline-flex items-center bg-primary-container text-on-primary border-2 border-on-background px-4 py-2 font-label-caps text-label-caps uppercase brutalist-btn-offset whitespace-nowrap">
                     {g.label}
                   </a>
                 </div>
@@ -82,7 +82,7 @@ export default function RecipePage() {
               <div className="bg-surface border border-on-background p-8 md:p-12 relative brutalist-offset">
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-6 bg-[#d2b48c] opacity-80 border border-on-background rotate-[-2deg]" />
                 <h2 className="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-center mb-6 uppercase border-b-2 border-on-background pb-2 w-full">The Story</h2>
-                <div className="font-body-lg text-body-lg space-y-6 columns-1 md:columns-2 gap-8 text-justify" style={{ columnRule: '1px solid #1b1c1a' }}>
+                <div className="font-body-lg text-body-lg space-y-6 columns-1 md:columns-2 gap-8 text-left md:text-justify" style={{ columnRule: '1px solid #1b1c1a' }}>
                   {recipe.story.split(/\n{2,}/).map((p, i) => <p key={i}>{p}</p>)}
                 </div>
               </div>
