@@ -1,8 +1,22 @@
+import { Routes, Route } from 'react-router-dom'
+import Layout from './components/Layout'
+
+function Stub({ title }: { title: string }) {
+  return <h1 className="font-display-lg text-display-lg uppercase">{title}</h1>
+}
+
 export default function App() {
   return (
-    <div className="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg">
-      <h1 className="font-display-lg text-display-lg uppercase text-primary">Freaking Pepperoni</h1>
-      <p className="font-label-mono text-label-mono mt-4">Scaffold online. Plumbing in progress.</p>
-    </div>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route index element={<Stub title="Home" />} />
+        <Route path="browse" element={<Stub title="Browse" />} />
+        <Route path="recipe/:slug" element={<Stub title="Recipe" />} />
+        <Route path="login" element={<Stub title="Login" />} />
+        <Route path="add" element={<Stub title="Add Recipe" />} />
+        <Route path="edit/:slug" element={<Stub title="Edit Recipe" />} />
+        <Route path="*" element={<Stub title="404 — Nothing Here" />} />
+      </Route>
+    </Routes>
   )
 }

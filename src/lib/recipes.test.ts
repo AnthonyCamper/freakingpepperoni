@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
-const { order, eqPub, eqCat, ilike, select, from } = vi.hoisted(() => {
+const { order, eqPub, eqCat: _eqCat, ilike: _ilike, select: _select, from } = vi.hoisted(() => {
   const order = vi.fn()
   const eqPub = vi.fn(() => ({ order }))
   const eqCat = vi.fn(() => ({ eq: eqPub, order }))
