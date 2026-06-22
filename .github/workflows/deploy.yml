@@ -24,6 +24,9 @@ jobs:
         env:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          # Absolute site origin used for sitemap.xml / robots.txt. Change here
+          # (or set a repo variable) if you move to a custom domain.
+          VITE_SITE_URL: https://anthonycamper.github.io/freakingpepperoni
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

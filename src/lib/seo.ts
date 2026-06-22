@@ -88,6 +88,16 @@ function upsertMeta(attr: 'name' | 'property', key: string, content: string) {
   el.setAttribute('content', content)
 }
 
+function upsertCanonical(href: string) {
+  let el = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]')
+  if (!el) {
+    el = document.createElement('link')
+    el.setAttribute('rel', 'canonical')
+    document.head.appendChild(el)
+  }
+  el.setAttribute('href', href)
+}
+
 export interface SeoInput {
   title: string
   description?: string
@@ -103,12 +113,17 @@ export function applySeo(input: SeoInput): () => void {
   const desc = input.description || DEFAULT_DESC
   document.title = fullTitle
 
+  // Canonical = clean URL without query/hash, so /browse?c=mains and the like
+  // collapse to one indexable URL per page.
+  const canonical = window.location.origin + window.location.pathname
+  upsertCanonical(canonical)
+
   upsertMeta('name', 'description', desc)
   upsertMeta('property', 'og:site_name', SITE_NAME)
   upsertMeta('property', 'og:title', fullTitle)
   upsertMeta('property', 'og:description', desc)
   upsertMeta('property', 'og:type', input.type || 'website')
-  upsertMeta('property', 'og:url', window.location.href)
+  upsertMeta('property', 'og:url', canonical)
   upsertMeta('name', 'twitter:card', input.image ? 'summary_large_image' : 'summary')
   upsertMeta('name', 'twitter:title', fullTitle)
   upsertMeta('name', 'twitter:description', desc)
