@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "seed": "node scripts/seed.mjs"
+    "seed": "tsx scripts/seed.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.0",
@@ -29,6 +29,7 @@
     "tailwindcss": "^3.4.7",
     "typescript": "^5.5.4",
     "vite": "^5.3.5",
+    "tsx": "^4.16.0",
     "vitest": "^2.0.5"
   }
 }
