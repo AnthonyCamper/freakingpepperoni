@@ -1,6 +1,46 @@
 import { supabase } from './supabase'
 import type { Category, Recipe, RecipeWithExtras } from './types'
 
+export interface GearInput { label: string; url: string; blurb: string }
+export interface RecipeInput {
+  id?: number; slug: string; name: string; tagline: string; story: string
+  ingredients: string[]; steps: string[]; category_id: number | null; photo_url: string | null
+}
+
+export async function uploadPhoto(file: File): Promise<string> {
+  const ext = file.name.split('.').pop() || 'jpg'
+  const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
+  const { error } = await supabase.storage.from('recipe-photos').upload(path, file, { upsert: false })
+  if (error) throw error
+  const { data } = supabase.storage.from('recipe-photos').getPublicUrl(path)
+  return data.publicUrl
+}
+
+export async function saveRecipe(input: RecipeInput, gear: GearInput[]): Promise<Recipe> {
+  const row = {
+    slug: input.slug, name: input.name,
+    tagline: input.tagline || null, story: input.story || null,
+    ingredients: input.ingredients, steps: input.steps,
+    category_id: input.category_id, photo_url: input.photo_url, is_published: true,
+  }
+  const { data, error } = input.id
+    ? await supabase.from('recipes').update(row).eq('id', input.id).select().single()
+    : await supabase.from('recipes').insert(row).select().single()
+  if (error) throw error
+  const saved = data as Recipe
+
+  // Replace gear rows
+  await supabase.from('recipe_gear').delete().eq('recipe_id', saved.id)
+  const validGear = gear.filter((g) => g.label.trim() && g.url.trim())
+  if (validGear.length) {
+    const { error: gErr } = await supabase.from('recipe_gear').insert(
+      validGear.map((g, i) => ({ recipe_id: saved.id, label: g.label, url: g.url, blurb: g.blurb || null, sort_order: i })),
+    )
+    if (gErr) throw gErr
+  }
+  return saved
+}
+
 export async function listCategories(): Promise<Category[]> {
   const { data, error } = await supabase.from('categories').select('*').order('sort_order')
   if (error) throw error
