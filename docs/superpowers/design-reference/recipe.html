@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uncle Sal's Bet-Winning Chili | FREAKING PEPPERONI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Domine:wght@400;600;700;900&amp;family=Public+Sans:wght@400;600&amp;family=Courier+Prime:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error-container": "#ffdad6",
+                    "surface-dim": "#dbdad6",
+                    "outline": "#8e706d",
+                    "background": "#faf9f5",
+                    "outline-variant": "#e2beba",
+                    "on-secondary-container": "#656464",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-highest": "#e3e2df",
+                    "tertiary-container": "#904917",
+                    "surface-bright": "#faf9f5",
+                    "on-primary": "#ffffff",
+                    "surface-variant": "#e3e2df",
+                    "primary-container": "#b22222",
+                    "tertiary": "#723200",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container": "#efeeea",
+                    "on-surface-variant": "#5a403e",
+                    "secondary-fixed": "#e4e2e1",
+                    "inverse-surface": "#2f312e",
+                    "surface": "#faf9f5",
+                    "secondary-container": "#e4e2e1",
+                    "on-background": "#1b1c1a",
+                    "on-error": "#ffffff",
+                    "tertiary-fixed": "#ffdbc9",
+                    "on-primary-fixed": "#410003",
+                    "on-primary-container": "#ffc8c2",
+                    "primary-fixed": "#ffdad6",
+                    "inverse-primary": "#ffb4ac",
+                    "surface-tint": "#b52424",
+                    "on-surface": "#1b1c1a",
+                    "on-primary-fixed-variant": "#92030f",
+                    "inverse-on-surface": "#f2f1ed",
+                    "primary-fixed-dim": "#ffb4ac",
+                    "on-tertiary-fixed-variant": "#753401",
+                    "on-secondary-fixed-variant": "#474747",
+                    "secondary": "#5f5e5e",
+                    "surface-container-high": "#e9e8e4",
+                    "on-tertiary-fixed": "#321200",
+                    "on-secondary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed-dim": "#ffb68c",
+                    "on-tertiary-container": "#ffcaad",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "error": "#ba1a1a",
+                    "secondary-fixed-dim": "#c8c6c6",
+                    "primary": "#8f000d",
+                    "surface-container-low": "#f4f4f0"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "unit": "4px",
+                    "stack-md": "16px",
+                    "margin-desktop": "64px",
+                    "gutter": "24px",
+                    "stack-sm": "8px",
+                    "stack-lg": "32px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Domine"],
+                    "body-sm": ["Public Sans"],
+                    "label-mono": ["Courier Prime"],
+                    "body-md": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "display-lg-mobile": ["Domine"],
+                    "headline-sm": ["Domine"],
+                    "headline-md": ["Domine"],
+                    "label-caps": ["Courier Prime"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "52px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-sm": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-mono": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-md": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-lg": ["20px", {"lineHeight": "32px", "fontWeight": "400"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-sm": ["24px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-md": ["32px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "label-caps": ["14px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-image: 
+                linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-attachment: fixed;
+        }
+        
+        /* Brutalist Offset Border */
+        .brutalist-offset {
+            position: relative;
+        }
+        .brutalist-offset::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            right: -4px;
+            bottom: -4px;
+            background-color: #1b1c1a;
+            z-index: -1;
+            transition: all 0.2s ease;
+        }
+        .brutalist-btn-offset {
+            position: relative;
+            transform: translate(0, 0);
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+        }
+        .brutalist-btn-offset:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0px 0px #1b1c1a;
+        }
+        .brutalist-btn-offset:active {
+            transform: translate(2px, 2px);
+            box-shadow: 0px 0px 0px 0px #1b1c1a;
+        }
+
+        /* Grease Stain List styling */
+        .grease-stain-list {
+            border-left: 3px solid #b22222; /* Primary Container / Tomato Red */
+            padding-left: 1rem;
+        }
+
+        /* Serrated Rule */
+        hr.serrated {
+            border: none;
+            height: 4px;
+            background-image: linear-gradient(-45deg, transparent 33.33%, #1b1c1a 33.33%, #1b1c1a 66.66%, transparent 66.66%), linear-gradient(45deg, transparent 33.33%, #1b1c1a 33.33%, #1b1c1a 66.66%, transparent 66.66%);
+            background-size: 8px 16px;
+            background-position: 0 100%;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col">
+<!-- TopNavBar Component -->
+<header class="bg-surface border-b-2 border-on-background sticky top-0 z-50">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-[1200px] mx-auto">
+<a class="font-display-lg-mobile text-display-lg-mobile font-black text-primary tracking-tighter" href="/">
+                FREAKING PEPPERONI
+            </a>
+<nav class="hidden md:flex gap-gutter">
+<a class="font-headline-sm text-headline-sm uppercase text-on-surface hover:text-primary hover:bg-surface-container transition-colors px-2 py-1" href="/archive">ARCHIVE</a>
+<a class="font-headline-sm text-headline-sm uppercase text-primary border-b-2 border-primary hover:bg-surface-container transition-colors px-2 py-1" href="/meats">MEATS</a>
+<a class="font-headline-sm text-headline-sm uppercase text-on-surface hover:text-primary hover:bg-surface-container transition-colors px-2 py-1" href="/sauces">SAUCES</a>
+<a class="font-headline-sm text-headline-sm uppercase text-on-surface hover:text-primary hover:bg-surface-container transition-colors px-2 py-1" href="/gear">GEAR</a>
+</nav>
+<button class="font-headline-sm text-headline-sm uppercase text-primary hidden md:block">
+                LOGIN
+            </button>
+<!-- Mobile Menu Toggle -->
+<button class="md:hidden text-on-background p-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">menu</span>
+</button>
+</div>
+</header>
+<main class="flex-grow w-full max-w-[1200px] mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg">
+<!-- Top Section: Recipe Dashboard (Above the fold focus) -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-stack-lg">
+<!-- Left Column: Title & Photo -->
+<div class="md:col-span-5 flex flex-col gap-stack-md">
+<div class="bg-surface border-2 border-on-background p-4 brutalist-offset">
+<div class="bg-primary-container text-on-primary-container font-label-caps text-label-caps inline-block px-2 py-1 mb-2 border border-on-background">BEEF / CHILI</div>
+<h1 class="font-display-lg text-display-lg mb-2 uppercase leading-none">Uncle Sal's Bet-Winning Chili</h1>
+<p class="font-body-md text-body-md italic text-on-surface-variant">"The Chili That Paid for Sal's Honda."</p>
+</div>
+<div class="border-2 border-on-background aspect-square relative overflow-hidden brutalist-offset">
+<img class="w-full h-full object-cover grayscale-[20%] contrast-125" data-alt="A gritty, overhead shot of a massive cast-iron pot filled to the brim with thick, dark red chili. The chili is speckled with chunks of beef, dark kidney beans, and coarse black pepper. A heavily used wooden spoon rests inside. The lighting is harsh and directional, highlighting the grease and texture of the stew. The setting feels like a rustic, no-nonsense family kitchen." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAf3hXe7Wibj0mVHaLrsaNEVdUjnLxjZPR-flFj3EqnlZF99nj9yqWfJJGW3jnZn2KbSidG-bsTE0u6EaYnoqcA7aedtCWXmZTaFZs7LO-4Ya98UIzjBHaraREhRlBpm_ExoQ4-u9v05qxCmeTD0RHFj-TfeopYE9BcKJTB2VdVTo704ZLn1oD1PA407tA2CwldmAaufMd7FcWCeJfZTFMzUJugYiZN4cTGMi6AzlEFsgiIvr0gVI0UNnV3r1gO6_gADiSFrk1Zen3A"/>
+</div>
+</div>
+<!-- Right Column: The Recipe Canvas -->
+<div class="md:col-span-7 bg-surface border-2 border-on-background p-6 brutalist-offset flex flex-col h-full">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter flex-grow">
+<!-- Ingredients List -->
+<div>
+<h2 class="font-headline-md text-headline-md border-b-4 border-on-background mb-4 pb-1 uppercase">Hardware</h2>
+<ul class="font-label-mono text-label-mono space-y-2 grease-stain-list">
+<li>2 lbs Ground Chuck (80/20)</li>
+<li>1 large Yellow Onion, chopped</li>
+<li>3 cloves Garlic, smashed</li>
+<li>2 cans (15oz) Kidney Beans</li>
+<li>1 can (28oz) Crushed Tomatoes</li>
+<li>1/4 cup Chili Powder (Don't skimp)</li>
+<li>1 tbsp Cumin</li>
+<li>1 tsp Black Pepper</li>
+<li>Salt to taste</li>
+<li>1/2 cup Black Coffee (Secret)</li>
+</ul>
+</div>
+<!-- Steps List -->
+<div>
+<h2 class="font-headline-md text-headline-md border-b-4 border-on-background mb-4 pb-1 uppercase">Execution</h2>
+<ol class="font-body-sm text-body-sm space-y-4 list-decimal list-inside">
+<li><strong>Brown the meat.</strong> Get a heavy pot. Heat it. Throw in the beef. Don't touch it until crust forms.</li>
+<li><strong>Sweat the veg.</strong> Toss in onions and garlic. Cook till translucent.</li>
+<li><strong>Spice dump.</strong> Dump in chili powder, cumin, pepper. Stir constantly for 1 minute till it smells like trouble.</li>
+<li><strong>Liquid phase.</strong> Pour in tomatoes, beans (undrained), and the black coffee. Scrape the bottom.</li>
+<li><strong>The wait.</strong> Simmer low and slow. 2 hours minimum. If you touch it, Sal will know.</li>
+</ol>
+</div>
+</div>
+<!-- Action / Affiliate Box -->
+<div class="mt-6 pt-4 border-t-2 border-on-background flex justify-between items-center bg-surface-container p-4">
+<span class="font-label-mono text-label-mono text-on-surface-variant flex-1 pr-4">The cast-iron pot Sal swears by (and won't let you touch).</span>
+<button class="bg-primary-container text-on-primary border-2 border-on-background px-4 py-2 font-label-caps text-label-caps uppercase brutalist-btn-offset whitespace-nowrap">
+                        BUY THE POT
+                    </button>
+</div>
+</div>
+</section>
+<!-- Separation Rule -->
+<hr class="serrated my-12 opacity-50"/>
+<!-- Below the Fold: The Story -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-stack-lg">
+<div class="md:col-start-3 md:col-span-8">
+<div class="bg-surface border border-on-background p-8 md:p-12 relative brutalist-offset">
+<!-- Decorative Tape/Pin -->
+<div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-16 h-6 bg-[#d2b48c] opacity-80 border border-on-background shadow-sm rotate-[-2deg]"></div>
+<h2 class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-center mb-6 uppercase border-b-2 border-on-background pb-2 inline-block mx-auto w-full">The Story</h2>
+<div class="font-body-lg text-body-lg space-y-6 columns-1 md:columns-2 gap-8 text-justify" style="column-rule: 1px solid #1b1c1a;">
+<p>It was August 1984. The annual Saint Anthony's parish cook-off was usually a polite affair, dominated by mild casseroles and overcooked ziti. Then Uncle Sal pulled up in his rust-bucket station wagon, hauling a cast-iron cauldron that looked like it belonged to a medieval warlock.</p>
+<p>He didn't bring decorations for his table. He just brought a ladle and a scowl. The chili was thick, aggressive, and dark as motor oil—thanks to the secret addition of yesterday's black coffee. He didn't offer sour cream. He didn't offer cheese. If you asked for crackers, he stared at you until you walked away.</p>
+<p>The judges were terrified. The priest coughed nervously after his first bite. But the depth of flavor—the smoky, beefy, unapologetic heat—was undeniable. He took first place through sheer intimidation and a recipe that commanded respect. The prize money was fifty bucks. He used it to put gas in the Honda. He's been bragging about it ever since.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Separation Rule -->
+<hr class="border-t-2 border-on-background my-12"/>
+<!-- Bottom: Related -->
+<section>
+<h3 class="font-headline-md text-headline-md uppercase mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined">folder_open</span>
+                Other Stuff You Might Like
+            </h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Card 1 -->
+<a class="bg-surface border-2 border-on-background brutalist-offset group block" href="#">
+<div class="h-40 border-b-2 border-on-background relative overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover grayscale-[10%] group-hover:grayscale-0 transition-all duration-300" data-alt="A close-up, high-contrast shot of thick, greasy, perfectly browned meatballs sitting in a pool of dark red marinara sauce. A heavy wooden spoon is resting next to them. The lighting is harsh and moody, emphasizing the texture of the meat and the sheen of the sauce. Rustic, brutalist culinary aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkO-ZBJb8Jc2NOg2tsomi2vTZ-biJoszrlVz-nL1yW9cLrVLLO8saQi0oBSorvKrBbwLE14uiG6pSQ642gSqs_gxjt4wuiNL6wxof_WylTEcQIGV27eyA5u0ciCaih4t3s3JmHpoaMcz4KWft3_hxUIMHmTBSihxdKT77UExNAaTey4yOza261s2SkJrfg-kU5V0Qcd4D2J4Vvx0WgtwTavVG6ttdGDWhywAovBy8HeFgCjghk-OSsUCxOvLueLm9bn8OeT8115Iby"/>
+</div>
+<div class="p-4">
+<div class="font-label-caps text-label-caps text-primary mb-1">PORK / BEEF</div>
+<h4 class="font-headline-sm text-headline-sm uppercase">Aunt Maria's "Shut Up" Meatballs</h4>
+</div>
+</a>
+<!-- Card 2 -->
+<a class="bg-surface border-2 border-on-background brutalist-offset group block" href="#">
+<div class="h-40 border-b-2 border-on-background relative overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover grayscale-[10%] group-hover:grayscale-0 transition-all duration-300" data-alt="A rugged, overhead view of thick, unevenly cut steaks searing on an aggressively hot cast-iron pan. Plumes of smoke rise. The scene is lit with stark, directional light that highlights the charred crust on the meat and the oily surface of the pan. No fancy garnishes, just raw cooking power." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmdRlU3rSTLdQdK3N1do6nLMQtPPbHbCTGoxQiePL5IUj-lhKZm-pPlPZWPzYYVNHcKxV5DpLkb5gcD2ADtQLfHR9ofSVnVp--zfA7USWXfhCmS5pucyh-QQa0oXf3SVXhzNIKqCiXkiX9pipTBpOPGIT6xIoYTdIM8XC4HEprhVCd0p3IAj7VGusAN_ZQUJM2HaOohDaxwe0LfH_eyD1WUhHUffCjn2z9nQ_967WslJR0IfyYMTq47LViWyjbmu7OSO1BmSTdyV2F"/>
+</div>
+<div class="p-4">
+<div class="font-label-caps text-label-caps text-primary mb-1">STEAK</div>
+<h4 class="font-headline-sm text-headline-sm uppercase">Pan-Seared Ribeye (The Wrong Way)</h4>
+</div>
+</a>
+<!-- Card 3 -->
+<a class="bg-surface border-2 border-on-background brutalist-offset group block" href="#">
+<div class="h-40 border-b-2 border-on-background relative overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover grayscale-[10%] group-hover:grayscale-0 transition-all duration-300" data-alt="A gritty, close-up photograph of an old, stained index card resting on a wooden table. The card has a heavily redacted recipe written on it with black marker. Next to it is a jar of cloudy, amber-colored homemade hot sauce. Minimalist, tactile, unpolished aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxdC-obcNoqNW6wGCQPcAVmMVsw8Zvj3omRvKAoH-GQVpS2GqZMBLJNRm4FF4KpxwvLRUwDPjfExEJhPAzwbAmDPO_bdVo1Lzfw1-DkIyffMgjRHUUg5d4feX-fmcDLxy91MfjeOmY8f1Su-A4uHP494wGYvh5SB0JR95Uvb-XcR5yivX34mJTqtcX9Ul63Ple6eQHL8p1YhiQgf-ciCDvqUL-BwBSUWgwemlj_ZFuxHJ0FLQ4Ry0jfLSaEY60rr0vKjcVIneN5n8C"/>
+</div>
+<div class="p-4">
+<div class="font-label-caps text-label-caps text-primary mb-1">SAUCES</div>
+<h4 class="font-headline-sm text-headline-sm uppercase">The Redacted Hot Sauce</h4>
+</div>
+</a>
+</div>
+</section>
+</main>
+<!-- Footer Component -->
+<footer class="bg-on-background border-t-4 border-primary mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-stack-lg gap-gutter max-w-[1200px] mx-auto">
+<div class="font-headline-sm text-headline-sm text-surface">
+                FREAKING PEPPERONI
+            </div>
+<nav class="flex flex-wrap justify-center gap-6">
+<a class="font-label-mono text-label-mono text-surface-variant opacity-80 hover:opacity-100 hover:text-primary-fixed transition-opacity" href="#">ASK YOUR AUNTIE</a>
+<a class="font-label-mono text-label-mono text-surface-variant opacity-80 hover:opacity-100 hover:text-primary-fixed transition-opacity" href="#">TERMS OF THE KITCHEN</a>
+<a class="font-label-mono text-label-mono text-surface-variant opacity-80 hover:opacity-100 hover:text-primary-fixed transition-opacity" href="#">GEAR ARCHIVE</a>
+</nav>
+<div class="font-label-mono text-label-mono text-surface opacity-80 text-center md:text-right">
+                HAND-CODED BY THE FAMILY. NO COOKIES, JUST PEPPERONI.
+            </div>
+</div>
+</footer>
+</body></html>

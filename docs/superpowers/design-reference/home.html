@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Freaking Pepperoni - Analog Digital Kitchen</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Domine:wght@400;600;700&amp;family=Public+Sans:wght@400;500;700&amp;family=Courier+Prime:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error-container": "#ffdad6",
+                      "surface-dim": "#dbdad6",
+                      "outline": "#8e706d",
+                      "background": "#faf9f5",
+                      "outline-variant": "#e2beba",
+                      "on-secondary-container": "#656464",
+                      "on-tertiary": "#ffffff",
+                      "surface-container-highest": "#e3e2df",
+                      "tertiary-container": "#904917",
+                      "surface-bright": "#faf9f5",
+                      "on-primary": "#ffffff",
+                      "surface-variant": "#e3e2df",
+                      "primary-container": "#b22222",
+                      "tertiary": "#723200",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-container": "#efeeea",
+                      "on-surface-variant": "#5a403e",
+                      "secondary-fixed": "#e4e2e1",
+                      "inverse-surface": "#2f312e",
+                      "surface": "#faf9f5",
+                      "secondary-container": "#e4e2e1",
+                      "on-background": "#1b1c1a",
+                      "on-error": "#ffffff",
+                      "tertiary-fixed": "#ffdbc9",
+                      "on-primary-fixed": "#410003",
+                      "on-primary-container": "#ffc8c2",
+                      "primary-fixed": "#ffdad6",
+                      "inverse-primary": "#ffb4ac",
+                      "surface-tint": "#b52424",
+                      "on-surface": "#1b1c1a",
+                      "on-primary-fixed-variant": "#92030f",
+                      "inverse-on-surface": "#f2f1ed",
+                      "primary-fixed-dim": "#ffb4ac",
+                      "on-tertiary-fixed-variant": "#753401",
+                      "on-secondary-fixed-variant": "#474747",
+                      "secondary": "#5f5e5e",
+                      "surface-container-high": "#e9e8e4",
+                      "on-tertiary-fixed": "#321200",
+                      "on-secondary": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "tertiary-fixed-dim": "#ffb68c",
+                      "on-tertiary-container": "#ffcaad",
+                      "on-secondary-fixed": "#1b1c1c",
+                      "error": "#ba1a1a",
+                      "secondary-fixed-dim": "#c8c6c6",
+                      "primary": "#8f000d",
+                      "surface-container-low": "#f4f4f0"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "unit": "4px",
+                      "stack-md": "16px",
+                      "margin-desktop": "64px",
+                      "gutter": "24px",
+                      "stack-sm": "8px",
+                      "stack-lg": "32px"
+              },
+              "fontFamily": {
+                      "display-lg": ["Domine"],
+                      "body-sm": ["Public Sans"],
+                      "label-mono": ["Courier Prime"],
+                      "body-md": ["Public Sans"],
+                      "body-lg": ["Public Sans"],
+                      "display-lg-mobile": ["Domine"],
+                      "headline-sm": ["Domine"],
+                      "headline-md": ["Domine"],
+                      "label-caps": ["Courier Prime"]
+              },
+              "fontSize": {
+                      "display-lg": ["48px", {"lineHeight": "52px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-sm": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-mono": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "body-md": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "body-lg": ["20px", {"lineHeight": "32px", "fontWeight": "400"}],
+                      "display-lg-mobile": ["36px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-sm": ["24px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-md": ["32px", {"lineHeight": "36px", "fontWeight": "700"}],
+                      "label-caps": ["14px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        /* Brutalist utility classes that can't be easily done with purely tailwind inline without repeating deeply */
+        .brutal-shadow {
+            box-shadow: 4px 4px 0 0 theme('colors.on-background');
+        }
+        .brutal-border {
+            border: 2px solid theme('colors.on-background');
+        }
+        .brutal-border-heavy {
+            border: 4px solid theme('colors.on-background');
+        }
+        .brutal-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 0 theme('colors.on-background');
+        }
+        .brutal-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 0px 0px 0 0 theme('colors.on-background');
+        }
+        
+        /* Typographic tearing effect */
+        .tear-edge {
+            background-image: radial-gradient(circle at 10px 0, transparent 10px, theme('colors.background') 11px);
+            background-size: 20px 20px;
+            background-repeat: repeat-x;
+            height: 20px;
+            position: relative;
+            top: -10px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+<!-- JSON Component: TopNavBar -->
+<header class="w-full bg-surface dark:bg-surface border-b-2 border-on-background dark:border-on-surface-variant sticky top-0 z-50">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-[1200px] mx-auto">
+<a class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg font-black text-primary dark:text-primary-fixed-dim tracking-tighter uppercase whitespace-nowrap" href="#">
+                FREAKING PEPPERONI
+            </a>
+<nav class="hidden md:flex items-center gap-gutter">
+<a class="font-headline-sm text-headline-sm uppercase text-on-surface dark:text-on-surface-variant hover:text-primary hover:bg-surface-container dark:hover:bg-surface-container-highest transition-colors px-2 py-1" href="#">ARCHIVE</a>
+<a class="font-headline-sm text-headline-sm uppercase text-on-surface dark:text-on-surface-variant hover:text-primary hover:bg-surface-container dark:hover:bg-surface-container-highest transition-colors px-2 py-1" href="#">MEATS</a>
+<a class="font-headline-sm text-headline-sm uppercase text-on-surface dark:text-on-surface-variant hover:text-primary hover:bg-surface-container dark:hover:bg-surface-container-highest transition-colors px-2 py-1" href="#">SAUCES</a>
+<a class="font-headline-sm text-headline-sm uppercase text-on-surface dark:text-on-surface-variant hover:text-primary hover:bg-surface-container dark:hover:bg-surface-container-highest transition-colors px-2 py-1" href="#">GEAR</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="brutal-btn bg-surface border-2 border-on-background p-2 transition-all group">
+<span class="material-symbols-outlined text-on-background group-hover:text-primary">search</span>
+</button>
+<a class="brutal-btn hidden md:inline-block bg-primary-container text-on-primary-container border-2 border-on-background px-6 py-2 font-label-caps text-label-caps uppercase transition-all" href="#">
+                    LOGIN
+                </a>
+<button class="md:hidden p-2 text-on-background">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</header>
+<main class="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg flex flex-col gap-[64px] min-h-screen">
+<!-- Hero Section -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-stretch">
+<!-- Image Column -->
+<div class="md:col-span-7 brutal-border-heavy brutal-shadow relative bg-surface-container-highest min-h-[400px]">
+<!-- Red Tab -->
+<div class="absolute -top-4 -left-4 bg-primary-container text-on-primary-container font-label-caps text-label-caps px-4 py-2 brutal-border brutal-shadow z-10 rotate-[-2deg]">
+                    RECIPE OF THE WEEK
+                </div>
+<img class="w-full h-full object-cover filter contrast-125 saturate-100 grayscale-[10%]" data-alt="A mouth-watering, top-down view of a rustic, hearty chili served in a well-worn, cast-iron Dutch oven resting on a slightly stained, flour-dusted wooden butcher block. The scene is lit by harsh, high-contrast directional lighting mimicking a stark kitchen bulb, casting deep, solid black shadows. The color palette emphasizes rich, deep tomato reds and dark, charred browns against the warm, pale cream of the background. The aesthetic is raw, unpolished, and analog, resembling a high-contrast vintage culinary magazine photo without any soft blurs or modern styling." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaNLo27g4DVh0CX2TOKMLo1CGc1HgZa8osMHQAZVPznnxnDpYTnK2WUZsnnFN0lMJMfw5PdXghjRH-yB3s-ATPv8F3jyvYvaZ-3IsRXyE3_lQtL5O5VmJm7-ShJAF3WTlOQOigve9CnmmHzJzNPX_FzhKIq7Vy6pq87YjiHGewfPEDsa4BuV8WNauBD1s491Kx8p8PKYDX6Lc47Sh8CiiJSKlW0OlCO25IY3Nfsp8MUtWWXMfFT5s9xrrn-4_DpAEaQDE6yhDB76gC"/>
+</div>
+<!-- Text Column -->
+<div class="md:col-span-5 flex flex-col justify-center gap-stack-lg pl-0 md:pl-4 mt-8 md:mt-0">
+<div>
+<h1 class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-on-background leading-none uppercase mb-4">
+                        Uncle Sal's Bet-Winning Chili
+                    </h1>
+<hr class="border-t-2 border-on-background my-4 w-1/3"/>
+<p class="font-body-lg text-body-lg text-on-surface-variant font-medium">
+                        Listen, Sal is a jerk, but this chili is the only reason he's still invited to Christmas. Just cook it.
+                    </p>
+</div>
+<div class="mt-auto">
+<button class="brutal-btn bg-primary-container text-on-primary-container brutal-border px-8 py-4 font-label-caps text-label-caps uppercase text-lg w-full md:w-auto text-center transition-all bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPjxyZWN0IHdpZHRoPSI0IiBoZWlnaHQ9IjQiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xNSIvPjwvc3ZnPg==')] hover:bg-primary text-white">
+                        GET THE RECIPE
+                    </button>
+</div>
+</div>
+</section>
+<hr class="border-t-4 border-on-background border-dashed"/>
+<!-- Search & Filters -->
+<section class="flex flex-col md:flex-row justify-between items-start md:items-end gap-stack-md">
+<div class="w-full md:w-1/2">
+<label class="font-label-mono text-label-mono text-on-surface-variant uppercase mb-2 block" for="search-input">Index Search</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-0 text-on-surface-variant text-3xl font-bold">arrow_forward</span>
+<input class="w-full bg-transparent border-0 border-b-4 border-on-background pl-10 py-2 font-headline-sm text-headline-sm text-on-background focus:ring-0 focus:border-primary placeholder:text-surface-dim transition-colors rounded-none outline-none" id="search-input" placeholder="Find what you're looking for..." type="text"/>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 mt-4 md:mt-0">
+<span class="font-label-caps text-label-caps self-center mr-2 text-on-surface-variant hidden md:inline">FILTER:</span>
+<button class="bg-surface font-label-mono text-label-mono brutal-border px-3 py-1 hover:bg-primary-container hover:text-on-primary-container transition-colors">Sunday Dinner</button>
+<button class="bg-surface font-label-mono text-label-mono brutal-border px-3 py-1 hover:bg-primary-container hover:text-on-primary-container transition-colors">Sugar Fix</button>
+<button class="bg-surface font-label-mono text-label-mono brutal-border px-3 py-1 hover:bg-primary-container hover:text-on-primary-container transition-colors">The Meats</button>
+</div>
+</section>
+<!-- Grid Section -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Card 1 -->
+<article class="bg-surface brutal-border flex flex-col relative group hover:-translate-y-1 transition-transform brutal-shadow">
+<div class="absolute top-0 right-4 bg-primary text-on-primary font-label-caps text-[10px] px-2 py-1 brutal-border border-t-0 z-10">
+                    CLASSIFIED
+                </div>
+<div class="h-48 brutal-border-b bg-surface-container-lowest overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 filter contrast-125 saturate-[0.85]" data-alt="A messy, generous slice of traditional layered lasagna sitting on a chipped, vintage white ceramic plate. The lasagna features thick layers of dark red marinara sauce, melted golden cheese with browned, crusty edges, and imperfect pasta sheets. The plate rests on a scarred, dark wood tabletop scattered with breadcrumbs. High-contrast, stark lighting creates sharp, brutalist shadows, emphasizing the textural reality of home cooking in a tactile, analog style, avoiding any delicate or sterile commercial food photography tropes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQiWLE2wyfcRoJVGeo2CrUayjFoc8jV2men6mrgqS5wnC88ax9jEmk8Jnd0hYh-fnS7jovcG47F58J2WY0mpfuAbPLhyO5KrWpPRn9s2dZLgJw2EQyXrXV3Jr0ozXAWub-WzJikFyRw0LdQMu3OELZGSfpic5lJTwv3rdHCSGqCX49Fy_IDMh_A3494jtJ4GWqNV0whqh_jl2NYoUQQal7zbNH9UD_dE1oYOFJbfAWKG_kRX5P5akAgAhjrruwX3DUtU7Bhjz6Tthl"/>
+</div>
+<div class="p-4 flex flex-col flex-grow">
+<h3 class="font-headline-sm text-headline-sm text-on-background uppercase leading-tight mb-2">Auntie Rose's "Shut Up and Eat" Lasagna</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4 flex-grow">Better than yours. Don't ask for the secret ingredient.</p>
+<a class="font-label-mono text-label-mono text-primary flex items-center gap-1 group-hover:underline underline-offset-4 decoration-2" href="#">
+                        READ MORE <span class="material-symbols-outlined text-[16px]">arrow_right_alt</span>
+</a>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="bg-surface brutal-border flex flex-col relative group hover:-translate-y-1 transition-transform brutal-shadow">
+<div class="absolute top-0 right-4 bg-surface-variant text-on-surface-variant font-label-caps text-[10px] px-2 py-1 brutal-border border-t-0 z-10">
+                    BAKED GOODS
+                </div>
+<div class="h-48 brutal-border-b bg-surface-container-lowest overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 filter contrast-125 saturate-[0.85]" data-alt="A large, aggressively rustic, irregularly shaped loaf of crusty artisanal bread resting on a piece of torn, brown butcher paper. The bread has a dark, deeply baked, almost burnt crust with distinct score marks and a dusting of coarse sea salt. The background is a stark, pale flour-white surface. The lighting is strong and unforgiving, highlighting the rough, tactile texture of the bread crust and creating a sharp, solid black shadow, perfectly fitting an uncompromising, brutalist culinary aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxjdXxYT6TfqdRhafKMS49DzHt1kmWnkxITxDmCxj2pVV9dgNOaD2zrVA3oJ6vGlc8IDO5aYymg-yhNaDAV_k1LQJCdzvio0FGDrwEfiZ_o9aHtk_INvDz1iCG-xRxczPxEM2B2o92TtdzOMlbFvaRpW_PnMxP2U-BLjxca7x4QYfCEz9jexL0mC0mpbrhKNcjBDS1YUobnL5dugysRlrWyobQPe9t6HOfE0o8Dk7KArgiFm3pCwHX6ZoMhlQvE8cYwEhR_l9fAucX"/>
+</div>
+<div class="p-4 flex flex-col flex-grow">
+<h3 class="font-headline-sm text-headline-sm text-on-background uppercase leading-tight mb-2">The Bread Grandpa Stole the Recipe For</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4 flex-grow">Crusty, salty, and legally questionable.</p>
+<a class="font-label-mono text-label-mono text-primary flex items-center gap-1 group-hover:underline underline-offset-4 decoration-2" href="#">
+                        READ MORE <span class="material-symbols-outlined text-[16px]">arrow_right_alt</span>
+</a>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="bg-surface brutal-border flex flex-col relative group hover:-translate-y-1 transition-transform brutal-shadow">
+<div class="absolute top-0 right-4 bg-tertiary-container text-on-tertiary font-label-caps text-[10px] px-2 py-1 brutal-border border-t-0 z-10">
+                    LATE NIGHT
+                </div>
+<div class="h-48 brutal-border-b bg-surface-container-lowest overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 filter contrast-125 saturate-[0.85]" data-alt="A steaming, oversized bowl of vibrant, rich red marinara sauce featuring chunky tomatoes and rough-torn basil leaves. The bowl sits directly on a heavily scratched, ink-stained kitchen counter under a stark, overhead light. A wooden spoon with sauce stains rests aggressively across the bowl. The lighting creates deep, hard-edged shadows, emphasizing the bold, primal colors of the tomato red against the dark background. The overall mood is late-night, functional, and devoid of any soft, romanticized styling." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdKunBPuhqgdfblDJgiqFrE56Oy7Qw31JadLSmkiOo1hZr-pp5LYKzRO8n2-NuJur1_0KGAl_3YsGJThMV2IAmFY3VibZ4H0OvP5DnPhuRdJpUuyuDR_JFv-GIeTvEyM9jSTMYy6xoNVzYdJlFVT0GZZMrFdgJF_-zz7TiEb1DQu_uAVJS3Y21g6RSX86skkbcfMteKQKnawMNFo25jpxnBsZctYlRVr6YYtX5s_L_bKibF07k5qVryImpVAvO5EZ9FSvTIshO73aX"/>
+</div>
+<div class="p-4 flex flex-col flex-grow">
+<h3 class="font-headline-sm text-headline-sm text-on-background uppercase leading-tight mb-2">Cousin Vinny's 4AM Marinara</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4 flex-grow">For when you're hungry and nobody's looking.</p>
+<a class="font-label-mono text-label-mono text-primary flex items-center gap-1 group-hover:underline underline-offset-4 decoration-2" href="#">
+                        READ MORE <span class="material-symbols-outlined text-[16px]">arrow_right_alt</span>
+</a>
+</div>
+</article>
+</section>
+</main>
+<!-- JSON Component: Footer -->
+<footer class="w-full bg-on-background dark:bg-inverse-surface border-t-4 border-primary dark:border-primary-container mt-16">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-stack-lg gap-gutter max-w-[1200px] mx-auto">
+<div class="font-headline-sm text-headline-sm text-surface dark:text-surface-bright uppercase">
+                FREAKING PEPPERONI
+            </div>
+<nav class="flex flex-wrap justify-center gap-4 text-center md:text-left">
+<a class="font-label-mono text-label-mono text-surface-variant dark:text-surface-dim opacity-80 hover:opacity-100 hover:text-primary-fixed uppercase transition-colors" href="#">ASK YOUR AUNTIE</a>
+<a class="font-label-mono text-label-mono text-surface-variant dark:text-surface-dim opacity-80 hover:opacity-100 hover:text-primary-fixed uppercase transition-colors" href="#">TERMS OF THE KITCHEN</a>
+<a class="font-label-mono text-label-mono text-surface-variant dark:text-surface-dim opacity-80 hover:opacity-100 hover:text-primary-fixed uppercase transition-colors" href="#">GEAR ARCHIVE</a>
+</nav>
+<div class="font-label-mono text-label-mono text-surface-variant dark:text-surface-dim opacity-60 text-center md:text-right mt-4 md:mt-0 max-w-[300px]">
+                HAND-CODED BY THE FAMILY. NO COOKIES, JUST PEPPERONI.
+            </div>
+</div>
+</footer>
+</body></html>
