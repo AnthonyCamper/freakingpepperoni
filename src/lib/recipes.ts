@@ -30,7 +30,8 @@ export async function saveRecipe(input: RecipeInput, gear: GearInput[]): Promise
   const saved = data as Recipe
 
   // Replace gear rows
-  await supabase.from('recipe_gear').delete().eq('recipe_id', saved.id)
+  const { error: delErr } = await supabase.from('recipe_gear').delete().eq('recipe_id', saved.id)
+  if (delErr) throw delErr
   const validGear = gear.filter((g) => g.label.trim() && g.url.trim())
   if (validGear.length) {
     const { error: gErr } = await supabase.from('recipe_gear').insert(

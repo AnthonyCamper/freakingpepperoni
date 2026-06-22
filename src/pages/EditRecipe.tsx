@@ -158,10 +158,12 @@ export default function EditRecipe() {
             <label className={labelCaps}>Upload the evidence (photo)</label>
             <label className="w-full aspect-square brutal-border bg-surface-container flex flex-col items-center justify-center cursor-pointer hover:bg-surface-variant transition-colors relative overflow-hidden">
               {photoUrl && <img src={photoUrl} alt="recipe" className="absolute inset-0 w-full h-full object-cover" />}
-              <div className="z-10 flex flex-col items-center text-center p-4">
-                <span className="material-symbols-outlined text-4xl mb-2 text-on-background">add_a_photo</span>
-                <span className="font-label-mono text-label-mono block text-on-background bg-surface px-2 py-1 brutal-border">CLICK TO UPLOAD</span>
-              </div>
+              {!photoUrl && (
+                <div className="z-10 flex flex-col items-center text-center p-4">
+                  <span className="material-symbols-outlined text-4xl mb-2 text-on-background">add_a_photo</span>
+                  <span className="font-label-mono text-label-mono block text-on-background bg-surface px-2 py-1 brutal-border">CLICK TO UPLOAD</span>
+                </div>
+              )}
               <input type="file" accept="image/*" onChange={onPhoto} className="hidden" />
             </label>
           </div>
