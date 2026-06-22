@@ -1,10 +1,13 @@
 import { supabase } from './supabase'
-import type { Category, Recipe, RecipeWithExtras } from './types'
+import type { Category, Nutrition, Recipe, RecipeWithExtras } from './types'
 
 export interface GearInput { label: string; url: string; blurb: string }
 export interface RecipeInput {
   id?: number; slug: string; name: string; tagline: string; story: string
   ingredients: string[]; steps: string[]; category_id: number | null; photo_url: string | null
+  servings: string | null; base_servings: number | null
+  prep_time: string | null; cook_time: string | null; total_time: string | null
+  notes: string | null; nutrition: Nutrition | null
 }
 
 export async function uploadPhoto(file: File): Promise<string> {
@@ -22,6 +25,9 @@ export async function saveRecipe(input: RecipeInput, gear: GearInput[]): Promise
     tagline: input.tagline || null, story: input.story || null,
     ingredients: input.ingredients, steps: input.steps,
     category_id: input.category_id, photo_url: input.photo_url, is_published: true,
+    servings: input.servings, base_servings: input.base_servings,
+    prep_time: input.prep_time, cook_time: input.cook_time, total_time: input.total_time,
+    notes: input.notes, nutrition: input.nutrition,
   }
   const { data, error } = input.id
     ? await supabase.from('recipes').update(row).eq('id', input.id).select().single()

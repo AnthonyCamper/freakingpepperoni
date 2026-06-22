@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { listRecipes, listCategories } from '../lib/recipes'
 import type { Category, Recipe } from '../lib/types'
 import RecipeCard from '../components/RecipeCard'
+import Seo from '../components/Seo'
 
 export default function Browse() {
   const [params, setParams] = useSearchParams()
@@ -22,6 +23,7 @@ export default function Browse() {
 
   return (
     <div className="flex flex-col gap-stack-lg">
+      <Seo title="The Archive" description="Browse every recipe in the family archive." />
       <header className="border-l-4 border-primary pl-4 py-1">
         <h1 className="font-display-lg text-display-lg-mobile md:text-display-lg uppercase break-words">THE ARCHIVE</h1>
         <p className="font-label-mono text-label-mono text-on-surface-variant mt-2">Everything the family will admit to cooking.</p>

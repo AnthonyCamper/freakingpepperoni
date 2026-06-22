@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { getRecipeOfWeek, listRecipes, listCategories } from '../lib/recipes'
 import type { Category, Recipe } from '../lib/types'
 import RecipeCard from '../components/RecipeCard'
+import Seo from '../components/Seo'
 
 export default function Home() {
   const [rotw, setRotw] = useState<Recipe | null>(null)
@@ -24,6 +25,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-[64px]">
+      <Seo title="Freaking Pepperoni" />
       {/* Recipe of the Week hero */}
       {rotw && (
         <section className="grid grid-cols-1 md:grid-cols-12 gap-gutter items-stretch">

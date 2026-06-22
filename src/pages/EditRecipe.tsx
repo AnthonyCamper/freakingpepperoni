@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { listCategories, getRecipeBySlug, uploadPhoto, saveRecipe, type GearInput } from '../lib/recipes'
 import { slugify } from '../lib/slug'
-import type { Category } from '../lib/types'
+import { parseServings } from '../lib/ingredients'
+import { estimateNutrition } from '../lib/nutrition'
+import type { Category, Nutrition } from '../lib/types'
 
 export default function EditRecipe() {
   const { slug: editSlug } = useParams()
@@ -17,6 +19,13 @@ export default function EditRecipe() {
   const [gear, setGear] = useState<GearInput[]>([])
   const [categoryId, setCategoryId] = useState<number | null>(null)
   const [photoUrl, setPhotoUrl] = useState<string | null>(null)
+  const [servings, setServings] = useState('')
+  const [baseServings, setBaseServings] = useState('')
+  const [prepTime, setPrepTime] = useState('')
+  const [cookTime, setCookTime] = useState('')
+  const [totalTime, setTotalTime] = useState('')
+  const [notes, setNotes] = useState('')
+  const [nutrition, setNutrition] = useState<Nutrition | null>(null)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
 
@@ -29,6 +38,9 @@ export default function EditRecipe() {
       setIngredients(r.ingredients.length ? r.ingredients : [''])
       setSteps(r.steps.length ? r.steps : [''])
       setCategoryId(r.category_id); setPhotoUrl(r.photo_url)
+      setServings(r.servings ?? ''); setBaseServings(r.base_servings ? String(r.base_servings) : '')
+      setPrepTime(r.prep_time ?? ''); setCookTime(r.cook_time ?? ''); setTotalTime(r.total_time ?? '')
+      setNotes(r.notes ?? ''); setNutrition(r.nutrition)
       setGear(r.gear.map((g) => ({ label: g.label, url: g.url, blurb: g.blurb ?? '' })))
     })
   }, [editSlug])
@@ -40,6 +52,23 @@ export default function EditRecipe() {
     try { setPhotoUrl(await uploadPhoto(file)) } catch (err) { setError(String(err)) }
   }
 
+  function autoEstimate() {
+    const lines = ingredients.map((s) => s.trim()).filter(Boolean)
+    const div = baseServings ? Number(baseServings) : parseServings(servings, 4)
+    const est = estimateNutrition(lines, div)
+    if (est.matched === 0) { setError('Couldn’t match any ingredients to the food table. Fill it in by hand.'); return }
+    setError('')
+    setNutrition({ ...est.perServing, source: 'estimated' })
+  }
+
+  function setNutritionField(key: keyof Nutrition, value: string) {
+    const num = value === '' ? undefined : Number(value)
+    setNutrition((prev) => {
+      const base: Nutrition = prev ?? { calories: 0, protein: 0, carbs: 0, fat: 0, source: 'manual' }
+      return { ...base, [key]: num ?? 0, source: 'manual' }
+    })
+  }
+
   async function submit(e: React.FormEvent) {
     e.preventDefault()
     if (!name.trim()) { setError('It needs a name.'); return }
@@ -49,7 +78,12 @@ export default function EditRecipe() {
         { id, slug: slugify(name), name: name.trim(), tagline, story,
           ingredients: ingredients.map((s) => s.trim()).filter(Boolean),
           steps: steps.map((s) => s.trim()).filter(Boolean),
-          category_id: categoryId, photo_url: photoUrl },
+          category_id: categoryId, photo_url: photoUrl,
+          servings: servings.trim() || null,
+          base_servings: baseServings ? Number(baseServings) : null,
+          prep_time: prepTime.trim() || null, cook_time: cookTime.trim() || null,
+          total_time: totalTime.trim() || null, notes: notes.trim() || null,
+          nutrition },
         gear,
       )
       navigate(`/recipe/${saved.slug}`)
@@ -174,6 +208,71 @@ export default function EditRecipe() {
               className="brutal-input bg-transparent border-0 brutal-border-bottom w-full font-body-md text-body-md py-2 px-0 appearance-none rounded-none cursor-pointer outline-none">
               {categories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
             </select>
+          </div>
+
+          {/* Timing & servings */}
+          <div className="flex flex-col gap-3 index-card p-4">
+            <h2 className="font-headline-sm text-headline-sm uppercase">Details</h2>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="flex flex-col gap-1">
+                <label className={labelCaps} htmlFor="servings">Serves (text)</label>
+                <input id="servings" value={servings} onChange={(e) => setServings(e.target.value)} className={brutalInput} placeholder="4–6 people" />
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className={labelCaps} htmlFor="baseServings">Scale base (#)</label>
+                <input id="baseServings" type="number" min="1" value={baseServings} onChange={(e) => setBaseServings(e.target.value)} className={brutalInput} placeholder="4" />
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className={labelCaps} htmlFor="prep">Prep time</label>
+                <input id="prep" value={prepTime} onChange={(e) => setPrepTime(e.target.value)} className={brutalInput} placeholder="15 min" />
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className={labelCaps} htmlFor="cook">Cook time</label>
+                <input id="cook" value={cookTime} onChange={(e) => setCookTime(e.target.value)} className={brutalInput} placeholder="30 min" />
+              </div>
+              <div className="flex flex-col gap-1 col-span-2">
+                <label className={labelCaps} htmlFor="total">Total time</label>
+                <input id="total" value={totalTime} onChange={(e) => setTotalTime(e.target.value)} className={brutalInput} placeholder="45 min" />
+              </div>
+            </div>
+            <p className="font-label-mono text-[11px] text-on-surface-variant leading-tight">“Scale base” is how many servings the ingredient amounts are written for — it powers the serving slider.</p>
+          </div>
+
+          {/* Nutrition */}
+          <div className="flex flex-col gap-3 index-card p-4">
+            <div className="flex items-center justify-between gap-2">
+              <h2 className="font-headline-sm text-headline-sm uppercase">Nutrition</h2>
+              <button type="button" onClick={autoEstimate}
+                className="tap font-label-caps text-label-caps uppercase border-2 border-on-background px-2 py-1 hover:bg-surface-container inline-flex items-center gap-1 brutal-btn">
+                <span className="material-symbols-outlined text-[16px]">calculate</span> Estimate
+              </button>
+            </div>
+            {nutrition && (
+              <p className="font-label-mono text-[11px] text-on-surface-variant">
+                {nutrition.source === 'estimated' ? 'Estimated from ingredients. Edit any value to override.' : 'Manual values (per serving).'}
+              </p>
+            )}
+            <div className="grid grid-cols-2 gap-3 font-label-mono text-label-mono">
+              {([
+                ['calories', 'Calories'], ['protein', 'Protein (g)'], ['carbs', 'Carbs (g)'], ['fat', 'Fat (g)'],
+                ['saturatedFat', 'Sat. fat (g)'], ['fiber', 'Fiber (g)'], ['sugar', 'Sugar (g)'], ['sodium', 'Sodium (mg)'],
+              ] as [keyof Nutrition, string][]).map(([key, label]) => (
+                <div key={key} className="flex flex-col gap-1">
+                  <label className={labelCaps} htmlFor={`n-${key}`}>{label}</label>
+                  <input id={`n-${key}`} type="number" min="0" step="any"
+                    value={nutrition && nutrition[key] != null && key !== 'source' ? String(nutrition[key]) : ''}
+                    onChange={(e) => setNutritionField(key, e.target.value)}
+                    className={brutalInput} placeholder="—" />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Notes */}
+          <div className="flex flex-col gap-2 index-card p-4">
+            <label className={labelCaps} htmlFor="notes">Kitchen scrawl (notes, optional)</label>
+            <textarea id="notes" value={notes} onChange={(e) => setNotes(e.target.value)} rows={2}
+              className={`${brutalInput} font-label-mono text-label-mono resize-none`} placeholder="Don't skip the resting step." />
           </div>
 
           {error && <p className="font-label-mono text-label-mono text-error">{error}</p>}
