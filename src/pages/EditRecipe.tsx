@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { listCategories, getRecipeBySlug, uploadPhoto, saveRecipe, type GearInput } from '../lib/recipes'
 import { slugify } from '../lib/slug'
 import { parseServings } from '../lib/ingredients'
-import { estimateNutrition } from '../lib/nutrition'
+import { estimateNutrition, searchFoods, type FoodSearchRow } from '../lib/nutrition'
 import type { Category, Nutrition } from '../lib/types'
 
 export default function EditRecipe() {
@@ -26,6 +26,10 @@ export default function EditRecipe() {
   const [totalTime, setTotalTime] = useState('')
   const [notes, setNotes] = useState('')
   const [nutrition, setNutrition] = useState<Nutrition | null>(null)
+  const [estimating, setEstimating] = useState(false)
+  const [estimateInfo, setEstimateInfo] = useState<{ matched: number; unmatched: string[] } | null>(null)
+  const [foodQuery, setFoodQuery] = useState('')
+  const [foodResults, setFoodResults] = useState<FoodSearchRow[]>([])
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
 
@@ -52,13 +56,30 @@ export default function EditRecipe() {
     try { setPhotoUrl(await uploadPhoto(file)) } catch (err) { setError(String(err)) }
   }
 
-  function autoEstimate() {
+  async function autoEstimate() {
     const lines = ingredients.map((s) => s.trim()).filter(Boolean)
     const div = baseServings ? Number(baseServings) : parseServings(servings, 4)
-    const est = estimateNutrition(lines, div)
-    if (est.matched === 0) { setError('Couldn’t match any ingredients to the food table. Fill it in by hand.'); return }
-    setError('')
-    setNutrition({ ...est.perServing, source: 'estimated' })
+    setEstimating(true); setError('')
+    try {
+      const est = await estimateNutrition(lines, div)
+      if (est.matched === 0) {
+        setError('Couldn’t match any ingredients to the USDA database. Fill it in by hand.')
+        setEstimateInfo(null)
+        return
+      }
+      setNutrition({ ...est.perServing, source: 'estimated' })
+      setEstimateInfo({ matched: est.matched, unmatched: est.unmatched })
+    } catch (err) {
+      setError(String(err))
+    } finally {
+      setEstimating(false)
+    }
+  }
+
+  async function runFoodSearch(q: string) {
+    setFoodQuery(q)
+    if (!q.trim()) { setFoodResults([]); return }
+    try { setFoodResults(await searchFoods(q)) } catch { /* ignore search errors */ }
   }
 
   function setNutritionField(key: keyof Nutrition, value: string) {
@@ -242,16 +263,15 @@ export default function EditRecipe() {
           <div className="flex flex-col gap-3 index-card p-4">
             <div className="flex items-center justify-between gap-2">
               <h2 className="font-headline-sm text-headline-sm uppercase">Nutrition</h2>
-              <button type="button" onClick={autoEstimate}
-                className="tap font-label-caps text-label-caps uppercase border-2 border-on-background px-2 py-1 hover:bg-surface-container inline-flex items-center gap-1 brutal-btn">
-                <span className="material-symbols-outlined text-[16px]">calculate</span> Estimate
+              <button type="button" onClick={autoEstimate} disabled={estimating}
+                className="tap font-label-caps text-label-caps uppercase border-2 border-on-background px-2 py-1 hover:bg-surface-container inline-flex items-center gap-1 brutal-btn disabled:opacity-50">
+                <span className="material-symbols-outlined text-[16px]">{estimating ? 'progress_activity' : 'calculate'}</span>
+                {estimating ? 'Matching…' : 'Estimate'}
               </button>
             </div>
-            {nutrition && (
-              <p className="font-label-mono text-[11px] text-on-surface-variant">
-                {nutrition.source === 'estimated' ? 'Estimated from ingredients. Edit any value to override.' : 'Manual values (per serving).'}
-              </p>
-            )}
+            <p className="font-label-mono text-[11px] text-on-surface-variant">
+              Per serving. “Estimate” matches each ingredient against the USDA food database; edit any value to override.
+            </p>
             <div className="grid grid-cols-2 gap-3 font-label-mono text-label-mono">
               {([
                 ['calories', 'Calories'], ['protein', 'Protein (g)'], ['carbs', 'Carbs (g)'], ['fat', 'Fat (g)'],
@@ -266,6 +286,33 @@ export default function EditRecipe() {
                 </div>
               ))}
             </div>
+
+            {/* Match transparency */}
+            {estimateInfo && (
+              <div className="font-label-mono text-[11px] text-on-surface-variant border-t border-on-background pt-2">
+                Matched {estimateInfo.matched} ingredient{estimateInfo.matched === 1 ? '' : 's'}.
+                {estimateInfo.unmatched.length > 0 && (
+                  <> Not counted: <span className="text-error">{estimateInfo.unmatched.join('; ')}</span>.</>
+                )}
+              </div>
+            )}
+
+            {/* Food database lookup (picker) */}
+            <details className="border-t border-on-background pt-2">
+              <summary className="font-label-caps text-label-caps uppercase cursor-pointer tap">Look up a food</summary>
+              <input value={foodQuery} onChange={(e) => runFoodSearch(e.target.value)}
+                className={`${brutalInput} mt-2`} placeholder="e.g. parmesan" />
+              {foodResults.length > 0 && (
+                <ul className="mt-2 flex flex-col gap-1 max-h-48 overflow-y-auto font-label-mono text-[11px]">
+                  {foodResults.map((f) => (
+                    <li key={f.id} className="flex justify-between gap-2 border-b border-on-background/30 py-1">
+                      <span className="truncate" title={f.name}>{f.name}</span>
+                      <span className="shrink-0 text-on-surface-variant">{Math.round(f.kcal)} cal/100g</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </details>
           </div>
 
           {/* Notes */}

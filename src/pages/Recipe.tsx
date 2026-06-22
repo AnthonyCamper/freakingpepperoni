@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom'
 import { getRecipeBySlug, getRelatedRecipes } from '../lib/recipes'
 import type { Recipe, RecipeWithExtras } from '../lib/types'
 import { transformIngredient, parseServings, type UnitSystem } from '../lib/ingredients'
-import { estimateNutrition } from '../lib/nutrition'
 import RecipeCard from '../components/RecipeCard'
 import NutritionLabel from '../components/NutritionLabel'
 import CookingMode from '../components/CookingMode'
@@ -44,13 +43,8 @@ export default function RecipePage() {
     [recipe, factor, system],
   )
 
-  // Nutrition: prefer stored facts, fall back to an ingredient estimate.
-  const nutrition = useMemo(() => {
-    if (!recipe) return null
-    if (recipe.nutrition) return recipe.nutrition
-    const est = estimateNutrition(recipe.ingredients, baseServings)
-    return est.matched >= 2 ? est.perServing : null
-  }, [recipe, baseServings])
+  // Nutrition facts are computed and stored per recipe (see scripts/backfill-nutrition).
+  const nutrition = recipe?.nutrition ?? null
 
   if (notFound) return <h1 className="font-display-lg text-display-lg uppercase">Never heard of it.</h1>
   if (!recipe) return <p className="font-label-mono text-label-mono">Pulling the card…</p>
