@@ -1,7 +1,11 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter, Routes, Route } from 'react-router-dom'
 import Layout from './Layout'
+
+vi.mock('../context/AuthContext', () => ({
+  useAuth: () => ({ session: null, isEditor: false, loading: false, signIn: vi.fn(), signOut: vi.fn() }),
+}))
 
 describe('Layout', () => {
   it('renders the wordmark and footer tagline', () => {
