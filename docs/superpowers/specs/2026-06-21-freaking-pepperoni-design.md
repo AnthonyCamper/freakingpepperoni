@@ -1,7 +1,7 @@
 # Freaking Pepperoni — Design Doc
 
 **Date:** 2026-06-21
-**Status:** Design in progress (decisions captured; some sections still open)
+**Status:** Approved — ready for implementation plan
 
 ## What we're building
 
@@ -28,49 +28,119 @@ It must be **fun, funny, and full of good stories.**
 | Topic | Decision |
 |---|---|
 | Who posts content | **Dad + a few trusted family editors.** A small handful can post. Not open to the public. |
-| Editor tech skill | **Not technical at all.** Posting must be a simple form (title, ingredients, steps, optional story, photo) + save. No code, no files, no Markdown. Build for the least-technical person. |
-| Recipe ↔ story | **Recipe-first; story optional.** The recipe is the main event. A story enriches a recipe when there's one to tell, but isn't required. |
-| Layout religion | **Recipe first, no scrolling to reach it. Story is a real second section right below.** Land on a recipe → ingredients and steps are immediately usable. Scroll down → the story is waiting, given its due, never in the way. This is the explicit anti-recipe-blog rule. |
+| Editor tech skill | **Not technical at all.** Posting is a simple form (title, ingredients, steps, optional story, photo, gear) + save. No code, no files, no Markdown. |
+| Recipe ↔ story | **Recipe-first; story optional.** The recipe is the main event. A story enriches it when there's one to tell. |
+| Layout religion | **Recipe first, no scrolling to reach it. Story is a real second section right below.** The explicit anti-recipe-blog rule. |
 | Recipe names | **Have personality.** "Uncle Sal's Bet-Winning Chili," not "Classic Beef Chili." |
-| Engagement hook | **Recipe of the Week**, front and center. Plus discovery threads (related recipes) to pull people deeper. |
-| Monetization | **Affiliate links**, woven in tastefully and in-character (e.g. "the cast-iron pan Grandpa swore by"). In scope. |
+| Engagement hook | **Recipe of the Week**, front and center. Plus related recipes to pull people deeper. |
+| Monetization | **Affiliate links** as a small in-character **"Recommended Gear"** box *on each recipe page* — not a separate nav section. |
 
-## V1 scope (all non-negotiable)
+## Visual direction (resolved)
 
-1. **Browse all recipes** — a scrollable list/grid of recipe cards.
-2. **Read a single recipe** — full page: name, photo, ingredients, steps, story,
-   related recipes. Layout follows the recipe-first rule above.
-3. **Search / filter** — find by name and by category (dinners, desserts,
-   family-member collections, etc.).
-4. **Editor experience** — trusted editors log in and add/edit recipes via the
-   simple form.
+The aesthetic is locked via the Stitch project **"Grumpy Uncle Kitchen"** — an
+"Analog Digital" / brutalist index-card look:
 
-Plus: a **Recipe of the Week** feature on the home page, and **related recipes** on
-each recipe page to entice deeper browsing.
+- **Colors:** Tomato Red `#b22222` (CTAs, branding heat), Flour White `#faf9f5`
+  (canvas), Charcoal ink (text/borders, never pure black), Oil-Stain sepia/brown
+  (worn accents). No gradients, no neon, no transparency.
+- **Typography:** **Domine** (heavy serif headlines), **Public Sans** (legible body),
+  **Courier Prime** (monospaced labels/metadata — cook time, yield).
+- **Shapes & depth:** Sharp 0-radius corners; 2px charcoal borders; "offset-border"
+  pseudo-shadows (a solid block offset 4px down/right) instead of blurs; horizontal
+  rules as ink/tear lines. Circular slightly-irregular "stamp" badges for things like
+  "Recipe of the Week."
+- **Buttons:** Blocky, tomato red, 2px border; on hover shift up-left to reveal a
+  solid black shadow.
 
-## Page sketches
+**Visual fidelity:** The Stitch project ships finished HTML for Home, Recipe, and
+Add-Recipe screens. These are the **exact visual reference** — the React components
+must reproduce that layout, spacing, type scale, and copy tone faithfully (down to the
+"Hardware / Execution" recipe layout, the stamp badges, and the offset-border cards).
+The Stitch HTML/CSS is pulled and used as the source of truth for markup/styling, then
+componentized and wired to live data.
 
-- **Home** — "Recipe of the Week" hero front and center; below it a grid of recipe
-  cards (photo, personality name, teasing one-liner); search bar + category filters;
-  voice with attitude throughout.
-- **Single recipe** — personality name → photo → ingredients + steps (immediately
-  usable, no scroll) → "The Story" section → tasteful affiliate callouts → related
-  recipes at the bottom.
-- **Add/Edit recipe (editors)** — dead-simple form: title, photo upload,
-  ingredients, steps, optional story, category, big save button.
+## Architecture
 
-## Open questions (still to decide)
+- **Frontend:** Vite + React + TypeScript SPA, Tailwind CSS, React Router. Deployed to
+  **GitHub Pages** via GitHub Actions. Hash-based routing (or 404 fallback) so deep
+  links work on Pages.
+- **Backend:** **Supabase** — Postgres (data), Auth (editor login), Storage (photos).
+- **Data flow:** Browser talks to Supabase directly via `supabase-js` using the public
+  anon key. Public read on published recipes; writes restricted to authenticated
+  editors via Row-Level Security + an `editors` allowlist. New recipes appear on
+  refresh — no rebuild needed.
 
-- **Visual aesthetic specifics** — old-school cookbook / index-card / kitchen-table
-  texture vs. cleaner modern. (User is exploring designs via stitch.withgoogle.com.)
-- **Tech stack & hosting** — needs: small-set editor auth, a database for recipes,
-  image storage, a public site, and a form-based admin. (Supabase is available in
-  this environment and is a natural fit for auth + DB + storage; frontend TBD.)
-- **Affiliate program details** — which network(s), how links are stored/managed.
-- **Where "insider/exclusive" shows up mechanically** — purely tone/copy, or are
-  there any gated/earned layers later? (Currently treated as tone only.)
+## Data model (Postgres)
 
-## Notes
+- **`categories`** — `id`, `slug`, `name`, `sort_order`. Seeded set:
+  Appetizers & Snacks, Soups & Stews, Mains, Pasta & Italian, Sides, Breads,
+  Desserts, Cookies & Candy, Sauces & Condiments, Everything Else (catch-all).
+- **`recipes`** — `id`, `slug`, `name`, `tagline`, `summary`, `servings`,
+  `servings_unit`, `prep_time`, `cook_time`, `total_time`, `ingredients text[]`,
+  `steps text[]`, `story`, `notes`, `tags text[]`, `category_id`, `photo_url`,
+  `is_published bool`, `created_at`, `updated_at`, `created_by`.
+- **`recipe_gear`** — `id`, `recipe_id`, `label`, `url`, `blurb`, `sort_order`.
+  Powers the per-recipe "Recommended Gear" box.
+- **`app_config`** — single row; holds `recipe_of_week_id`.
+- **`editors`** — `user_id` (FK → `auth.users`), `name`. Membership grants write access.
 
-- A UI-generation prompt for stitch.withgoogle.com was produced from these decisions
-  to explore visual direction.
+**Related recipes** are computed at read time from shared category/tags — no table.
+
+### RLS policy summary
+- `recipes`, `categories`, `recipe_gear`, `app_config`: public `SELECT` (recipes only
+  where `is_published = true` for anon; editors see all).
+- `INSERT`/`UPDATE`/`DELETE` on `recipes`, `recipe_gear`, `app_config`: allowed only
+  when `auth.uid()` exists in `editors`.
+- Storage `recipe-photos` bucket: public read; uploads restricted to editors.
+
+## Pages
+
+- **Home** — "Recipe of the Week" hero (stamp badge, photo, personality name, teasing
+  one-liner, "Get the Recipe"); search bar + category chips; recipe-card grid (photo,
+  personality name, teaser); footer with attitude.
+- **Browse / Archive** — full grid, category filter + text search.
+- **Recipe** — name → tagline → photo → **ingredients + steps immediately usable, no
+  scroll** (two-column "Hardware / Execution" layout) → **Recommended Gear** box →
+  **The Story** section → related recipes ("Other stuff you might like").
+- **Add / Edit recipe** (editors only) — dead-simple form: title, tagline, photo
+  upload (→ Storage), ingredients (add/remove lines), steps (add/remove), optional
+  story, category dropdown, gear items (label + url + blurb), publish toggle, big
+  **Save to the Archive** button.
+- **Login** — Supabase email + password; editor-only. Auth guard on Add/Edit.
+
+## Seeding (the 565 real recipes)
+
+A Node script parses `recipes.csv` and loads all rows:
+- Split `ingredient_blocks` / `instruction_blocks` into `ingredients[]` / `steps[]`
+  (strip leading step numbers, preserve section headers as lines).
+- Map `tags` → one `category_id` (best-effort; unmatched → "Everything Else").
+- Slugify `name`; carry `summary`, `servings`, times, `notes`, `tags` through.
+- `tagline` and `story` start **blank** — editors fill them in over time.
+- `is_published = true` for all imported recipes.
+
+## Deliverables ("all the plumbing")
+
+Built and committed now; inert until the Supabase project exists:
+
+1. **`supabase/migrations/`** — schema, RLS policies, storage bucket + policies, seed
+   of `categories` and `app_config`.
+2. **Seed script** (`scripts/seed.*`) — CSV → recipes, run once against the live project
+   with a service-role key.
+3. **Frontend app** — all pages above, wired to Supabase via `VITE_SUPABASE_URL` /
+   `VITE_SUPABASE_ANON_KEY`, styled to the Grumpy Uncle Kitchen system.
+4. **GitHub Actions** workflow — build + deploy to Pages.
+5. **`.env.example`** and a **README** with the exact post-creation runbook:
+   link project → push migrations → run seed → create editor logins → set the two
+   GitHub secrets → enable Pages.
+
+### Out of scope for the user (requires their Supabase project)
+Creating the project, real URL/keys, running migrations against the live DB, creating
+editor accounts, enabling Pages. Everything is built so this is a short, scripted
+runbook.
+
+## Deferred / not in v1
+
+- Auto-generated personality names/taglines for the 565 imports (slop risk; editors do
+  this by hand).
+- Any gated/earned "insider" mechanics — insider feel is tone/copy only for now.
+- A standalone GEAR/equipment catalog — affiliate gear lives per-recipe.
