@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-background text-on-background font-body-md antialiased;
+}
+.material-symbols-outlined { font-family: 'Material Symbols Outlined'; font-weight: normal; font-style: normal; line-height: 1; }
+
+/* Brutalist utilities ported from the Stitch reference */
+.brutal-shadow { box-shadow: 4px 4px 0 0 #1b1c1a; }
+.brutal-border { border: 2px solid #1b1c1a; }
+.brutal-border-heavy { border: 4px solid #1b1c1a; }
+.brutal-border-b { border-bottom: 2px solid #1b1c1a; }
+.brutalist-offset { box-shadow: 6px 6px 0 0 #1b1c1a; }
+.brutal-btn, .brutalist-btn-offset { transition: transform .1s, box-shadow .1s; }
+.brutal-btn:hover, .brutalist-btn-offset:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 0 #1b1c1a; }
+.brutal-btn:active, .brutalist-btn-offset:active { transform: translate(2px, 2px); box-shadow: 0 0 0 0 #1b1c1a; }
+.brutal-input { border-bottom: 3px solid #1b1c1a; }
+.brutal-input:focus { border-color: #b22222; }
+.brutal-border-bottom { border-bottom: 3px solid #1b1c1a; }
+
+.grease-stain-list { border-left: 3px solid #b22222; padding-left: 1rem; }
+
+hr.serrated {
+  border: none; height: 4px;
+  background-image:
+    linear-gradient(-45deg, transparent 33.33%, #1b1c1a 33.33%, #1b1c1a 66.66%, transparent 66.66%),
+    linear-gradient(45deg, transparent 33.33%, #1b1c1a 33.33%, #1b1c1a 66.66%, transparent 66.66%);
+  background-size: 8px 16px; background-position: 0 100%;
+}
+.paper-hr { border: none; border-top: 1px solid #1b1c1a; margin: 32px 0; position: relative; }
+.index-card { background-color: #ffffff; border: 1px solid #1b1c1a; }
