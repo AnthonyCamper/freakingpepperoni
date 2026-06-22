@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout'
+import Home from './pages/Home'
 
 function Stub({ title }: { title: string }) {
   return <h1 className="font-display-lg text-display-lg uppercase">{title}</h1>
@@ -9,7 +10,7 @@ export default function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        <Route index element={<Stub title="Home" />} />
+        <Route index element={<Home />} />
         <Route path="browse" element={<Stub title="Browse" />} />
         <Route path="recipe/:slug" element={<Stub title="Recipe" />} />
         <Route path="login" element={<Stub title="Login" />} />
